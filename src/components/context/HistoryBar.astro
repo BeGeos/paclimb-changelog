@@ -7,7 +7,7 @@ interface Props {
 const { paths, current } = Astro.props;
 ---
 
-<ul class="flex gap-2 text-sm font-light">
+<ul class="max-w-full flex gap-2 text-xs font-light overflow-y-auto">
   {
     paths.map((path) => (
       <li>
