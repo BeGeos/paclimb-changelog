@@ -1,0 +1,33 @@
+---
+import Container from '@components/utils/Container.astro';
+
+import HistoryBar from '@components/context/HistoryBar.astro';
+import NavbarLayout from './NavbarLayout.astro';
+
+interface Props {
+  title: string;
+  lang?: string;
+}
+
+const { lang, title } = Astro.props;
+
+const history = [
+  {
+    name: 'Home',
+    link: '/' + lang,
+  },
+  {
+    name: 'Beta',
+    link: '/' + lang + '/beta',
+  },
+];
+---
+
+<NavbarLayout title={'PaClimb - ' + title} lang={lang}>
+  <Container>
+    <HistoryBar paths={history} current={title} />
+    <article class="py-4" id="__markdown">
+      <slot />
+    </article>
+  </Container>
+</NavbarLayout>

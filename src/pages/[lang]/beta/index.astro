@@ -1,0 +1,113 @@
+---
+import type { MarkdownInstance } from 'astro';
+
+import NavbarLayout from '@layouts/NavbarLayout.astro';
+
+import Container from '@components/utils/Container.astro';
+import HistoryBar from '@components/context/HistoryBar.astro';
+import LogList from '@components/content/LogList.astro';
+
+// Types
+interface LogData {
+  slug: string;
+  date: Date;
+  title: string;
+}
+
+// Utils
+const groupLogsByMonth = (
+  logs: MarkdownInstance<Record<string, any>>[],
+  months: string[]
+): { [key: string]: LogData[] } => {
+  // Logs must be sorted by date to have the newest up top
+  let sortedLogs = logs.sort((a, b) => {
+    // Desc order
+    return Date.parse(b.frontmatter.slug) - Date.parse(a.frontmatter.slug);
+  });
+
+  let groups: { [key: string]: any } = {};
+
+  for (const log of sortedLogs) {
+    const { slug, title } = log.frontmatter;
+    const date = new Date(Date.parse(slug));
+
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    const key = month + ' ' + year;
+
+    const data = {
+      date,
+      slug,
+      title,
+    };
+
+    if (key in groups) {
+      groups[key].push(data);
+    } else {
+      groups[key] = [data];
+    }
+  }
+
+  return groups;
+};
+
+export const getStaticPaths = async () => {
+  const { SUPPORTED_LANGUAGES } = await import('@settings/index');
+
+  return await Promise.all(
+    SUPPORTED_LANGUAGES.map(async (lang) => {
+      let translations;
+
+      switch (lang) {
+        case 'it':
+          translations = (await import('@locale/it')).default;
+          break;
+        default:
+          translations = (await import('@locale/en')).default;
+      }
+
+      return [
+        {
+          params: {
+            lang,
+          },
+          props: {
+            translations,
+          },
+        },
+      ];
+    })
+  );
+};
+
+const { lang } = Astro.params;
+const { translations } = Astro.props;
+
+let logs: MarkdownInstance<Record<string, any>>[];
+
+switch (lang) {
+  case 'it':
+    logs = await Astro.glob('../../../logs/it/*.md');
+    break;
+  default:
+    // default is going to be English
+    logs = await Astro.glob('../../../logs/en/*.md');
+}
+
+const history = [
+  {
+    name: 'Home',
+    link: '/' + lang,
+  },
+];
+
+const sortedGroups = groupLogsByMonth(logs, translations.time.months);
+---
+
+<NavbarLayout title="PaClimb - Change Logs" lang={lang}>
+  <Container>
+    <HistoryBar paths={history} current="Beta" />
+    <LogList logData={sortedGroups} />
+  </Container>
+</NavbarLayout>

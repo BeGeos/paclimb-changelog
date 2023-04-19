@@ -1,0 +1,30 @@
+---
+import Log from './Log.astro';
+
+interface LogData {
+  slug: string;
+  date: Date;
+  title: string;
+}
+
+interface Props {
+  logData: { [key: string]: LogData[] };
+}
+
+const { logData } = Astro.props;
+---
+
+<ul class="py-6 list-disc flex flex-col gap-4">
+  {
+    Object.keys(logData).map((key) => {
+      return (
+        <article class="pb-4 border-b-[1px] border-black/20">
+          <h3 class="font-bold text-2xl pb-2">{key}</h3>
+          {logData[key].map((log) => (
+            <Log title={log.title} slug={log.slug} date={log.date} />
+          ))}
+        </article>
+      );
+    })
+  }
+</ul>

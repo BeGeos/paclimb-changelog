@@ -1,0 +1,67 @@
+---
+import NavbarLayout from '@layouts/NavbarLayout.astro';
+
+import Container from '@components/utils/Container.astro';
+import Grid from '@components/utils/Grid.astro';
+import HistoryBar from '@components/context/HistoryBar.astro';
+import PrettyLink from '@components/utils/PrettyLink.astro';
+
+export const getStaticPaths = async () => {
+  const { SUPPORTED_LANGUAGES } = await import('@settings/index');
+
+  return await Promise.all(
+    SUPPORTED_LANGUAGES.map(async (lang) => {
+      let translations;
+
+      switch (lang) {
+        case 'it':
+          translations = (await import('@locale/it')).default;
+          break;
+        default:
+          translations = (await import('@locale/en')).default;
+      }
+
+      return [
+        {
+          params: {
+            lang,
+          },
+          props: {
+            translations,
+          },
+        },
+      ];
+    })
+  );
+};
+
+const { lang } = Astro.params;
+const { translations } = Astro.props;
+
+const productionLink = lang === 'it' ? '/it' : '/en';
+const betaLink = lang === 'it' ? '/it/beta' : '/en/beta';
+const latestDateStaging = new Date(Date.parse('2023-04-10'));
+const latestUpdateStaging =
+  translations.home.latestUpdate + latestDateStaging.toLocaleDateString(lang);
+---
+
+<NavbarLayout title={translations.home.title} lang={lang}>
+  <Container>
+    <HistoryBar current="Home" paths={[]} />
+    <Grid>
+      <PrettyLink
+        href={productionLink}
+        title={translations.home.env.prod.title}
+        message={translations.home.env.prod.message}
+        trafficLight="pending"
+      />
+      <PrettyLink
+        href={betaLink}
+        title={translations.home.env.staging.title}
+        message={translations.home.env.staging.message}
+        latestUpdate={latestUpdateStaging}
+        trafficLight="active"
+      />
+    </Grid>
+  </Container>
+</NavbarLayout>

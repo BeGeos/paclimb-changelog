@@ -1,0 +1,20 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  date: Date;
+}
+
+const { title, slug, date } = Astro.props;
+
+const { lang } = Astro.params;
+
+const _date = date.toLocaleDateString(lang);
+---
+
+<li class="opacity-40 ml-8 hover:opacity-100 transition:opacity duration-300">
+  <a href={'beta/' + slug} class="flex items-end">
+    <p class="flex-1">{title}</p>
+    <span class="text-xs">{_date}</span>
+  </a>
+</li>

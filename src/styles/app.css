@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  #__markdown {
+    line-height: 1.8;
+  }
+
+  #__markdown h1 {
+    @apply text-3xl font-bold py-4 border-b-[1px] border-black/20 mb-2;
+  }
+
+  #__markdown h2 {
+    @apply text-2xl font-semibold py-2;
+  }
+
+  #__markdown h3 {
+    @apply text-xl font-semibold py-2;
+  }
+
+  #__markdown ul > li {
+    @apply list-disc ml-6;
+  }
+
+  #__markdown ol > li {
+    @apply list-decimal ml-6;
+  }
+
+  #__markdown a {
+    @apply text-blue-400 underline decoration-dotted hover:decoration-solid;
+  }
+
+  #__markdown code {
+    @apply p-1 rounded-md bg-slate-200 text-xs;
+  }
+
+  #__markdown blockquote,
+  #__markdown pre {
+    @apply px-2 py-3 rounded-lg my-4 text-sm;
+  }
+
+  #__markdown pre > code {
+    @apply bg-inherit p-0 text-xs;
+  }
+}

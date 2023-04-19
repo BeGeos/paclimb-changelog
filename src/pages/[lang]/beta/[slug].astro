@@ -1,0 +1,59 @@
+---
+import type { MarkdownInstance } from 'astro';
+
+import LogEntryLayout from '@layouts/LogEntryLayout.astro';
+
+// Utils
+const getDate = (date: string = '', locale: string = 'it') => {
+  return new Date(Date.parse(date)).toLocaleDateString(locale);
+};
+
+export const getStaticPaths = async () => {
+  const { SUPPORTED_LANGUAGES } = await import('@settings/index');
+
+  // Combine lang - slug
+
+  let staticPaths = [];
+  for (const lang of SUPPORTED_LANGUAGES) {
+    let _logs: MarkdownInstance<Record<string, any>>[];
+    switch (lang) {
+      case 'it':
+        _logs = await Astro.glob('../../../logs/it/*.md');
+        break;
+      default:
+        _logs = await Astro.glob('../../../logs/en/*.md');
+    }
+
+    for (const log of _logs) {
+      const { slug, title, author, link } = log.frontmatter;
+      staticPaths.push({
+        params: {
+          slug,
+          lang,
+        },
+        props: {
+          log,
+          title,
+          author,
+          link,
+        },
+      });
+    }
+  }
+
+  return staticPaths;
+};
+
+const { title, log, author, link } = Astro.props;
+const { Content } = log;
+const { lang, slug } = Astro.params;
+const date = getDate(slug, lang);
+---
+
+<LogEntryLayout lang={lang} title={title}>
+  <header class="flex text-xs gap-1">
+    <p class="opacity-40">{date} by</p>
+    <a href={link} target="_blank" rel="noopener noreferrer">{author}</a>
+  </header>
+  <Content />
+</LogEntryLayout>

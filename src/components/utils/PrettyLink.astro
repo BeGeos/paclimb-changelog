@@ -1,0 +1,45 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  message: string;
+  latestUpdate?: string;
+  trafficLight?: string;
+}
+
+const { href, latestUpdate, title, message, trafficLight } = Astro.props;
+
+const trafficLights = {
+  active: 'bg-green-500',
+  pending: 'bg-yellow-500',
+  suspended: 'bg-red-500',
+};
+
+let style: string;
+switch (trafficLight) {
+  case 'active':
+    style = trafficLights['active'];
+    break;
+  case 'pending':
+    style = trafficLights['pending'];
+    break;
+  default:
+    style = trafficLights['suspended'];
+}
+---
+
+<a
+  href={href}
+  class="bg-slate-200 rounded-lg shadow-md border-[1px] border-black/10 p-4 flex-1 min-w-[14rem] hover:scale-105 transition-transform duration-300"
+>
+  <h3 class="font-xl font-bold flex items-center gap-2">
+    {title}
+    <div class="h-3 aspect-square rounded-full" class:list={[style]}></div>
+  </h3>
+  <p class="opacity-60 pb-4">
+    {message}
+  </p>
+  <p class="opacity-30 text-xs text-right">
+    {latestUpdate}
+  </p>
+</a>

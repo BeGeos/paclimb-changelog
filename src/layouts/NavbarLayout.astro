@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  lang?: string;
+}
+
+import Layout from './Layout.astro';
+import Navbar from '@components/context/Navbar.astro';
+
+const { lang, title } = Astro.props;
+---
+
+<Layout title={title} lang={lang}>
+  <Navbar />
+  <slot />
+</Layout>
