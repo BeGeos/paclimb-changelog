@@ -1,6 +1,6 @@
 const translations = {
   home: {
-    title: 'PaClimb - Homepage Italia',
+    title: 'PaClimb Change Log - Homepage Italia',
     latestUpdate: 'Ultimo aggiornamento: ',
     env: {
       prod: {

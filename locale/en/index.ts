@@ -1,6 +1,6 @@
 const translations = {
   home: {
-    title: 'PaClimb - Homepage',
+    title: 'PaClimb Change Log - Homepage',
     latestUpdate: 'Latest Update: ',
     env: {
       prod: {
