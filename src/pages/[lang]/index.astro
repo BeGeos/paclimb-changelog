@@ -40,7 +40,7 @@ const { translations } = Astro.props;
 
 const productionLink = lang === 'it' ? '/it' : '/en';
 const betaLink = lang === 'it' ? '/it/beta' : '/en/beta';
-const latestDateStaging = new Date(Date.parse('2023-04-25'));
+const latestDateStaging = new Date(Date.parse('2023-05-09'));
 const latestUpdateStaging =
   translations.home.latestUpdate + latestDateStaging.toLocaleDateString(lang);
 ---
