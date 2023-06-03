@@ -8,46 +8,32 @@ const getDate = (date: string = '', locale: string = 'it') => {
   return new Date(Date.parse(date)).toLocaleDateString(locale);
 };
 
-export const getStaticPaths = async () => {
-  const { SUPPORTED_LANGUAGES } = await import('@settings/index');
-
-  // Combine lang - slug
-
-  let staticPaths = [];
-  for (const lang of SUPPORTED_LANGUAGES) {
-    let _logs: MarkdownInstance<Record<string, any>>[];
-    switch (lang) {
-      case 'it':
-        _logs = await Astro.glob('../../../logs/it/*.md');
-        break;
-      default:
-        _logs = await Astro.glob('../../../logs/en/*.md');
-    }
-
-    for (const log of _logs) {
-      const { slug, title, author, link } = log.frontmatter;
-      staticPaths.push({
-        params: {
-          slug,
-          lang,
-        },
-        props: {
-          log,
-          title,
-          author,
-          link,
-        },
-      });
-    }
-  }
-
-  return staticPaths;
+const getLog = async (
+  slug: string,
+  logs: MarkdownInstance<Record<string, any>>[]
+) => {
+  return logs.filter((l) => l.frontmatter.slug === slug)[0];
 };
 
-const { title, log, author, link } = Astro.props;
-const { Content } = log;
+//@ts-ignore
 const { lang, slug } = Astro.params;
-const date = getDate(slug, lang);
+
+let logs;
+
+switch (lang) {
+  case 'it':
+    logs = await Astro.glob('../../../logs/it/*.md');
+    break;
+  default:
+    logs = await Astro.glob('../../../logs/en/*.md');
+}
+
+//@ts-ignore
+const log = await getLog(slug, logs);
+
+const { title, link, author, slug: _slug } = log.frontmatter;
+const { Content } = log;
+const date = getDate(_slug, lang);
 ---
 
 <LogEntryLayout lang={lang} title={title}>

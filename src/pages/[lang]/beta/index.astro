@@ -52,37 +52,22 @@ const groupLogsByMonth = (
   return groups;
 };
 
-export const getStaticPaths = async () => {
-  const { SUPPORTED_LANGUAGES } = await import('@settings/index');
+const getLocaleTranslations = async (locale: string = 'it') => {
+  let translations;
 
-  return await Promise.all(
-    SUPPORTED_LANGUAGES.map(async (lang) => {
-      let translations;
+  switch (locale) {
+    case 'it':
+      translations = (await import('@locale/it')).default;
+      break;
+    default:
+      translations = (await import('@locale/en')).default;
+  }
 
-      switch (lang) {
-        case 'it':
-          translations = (await import('@locale/it')).default;
-          break;
-        default:
-          translations = (await import('@locale/en')).default;
-      }
-
-      return [
-        {
-          params: {
-            lang,
-          },
-          props: {
-            translations,
-          },
-        },
-      ];
-    })
-  );
+  return translations;
 };
 
 const { lang } = Astro.params;
-const { translations } = Astro.props;
+const translations = await getLocaleTranslations(lang);
 
 let logs: MarkdownInstance<Record<string, any>>[];
 
