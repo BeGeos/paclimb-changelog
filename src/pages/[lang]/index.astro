@@ -6,11 +6,6 @@ import Grid from '@components/utils/Grid.astro';
 import HistoryBar from '@components/context/HistoryBar.astro';
 import PrettyLink from '@components/utils/PrettyLink.astro';
 
-Astro.request.headers.set(
-  'cache-control',
-  'public, s-max-age=86400, must-revalidate'
-);
-
 const getLocaleTranslations = async (locale: string = 'it') => {
   let translations;
 
