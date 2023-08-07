@@ -5,30 +5,41 @@ const isItalianActive = lang === 'it';
 const isEnglishActive = lang === 'en';
 ---
 
-<header class="min-w-full py-4 shadow-md">
-  <nav class="max-w-[90%] mx-auto flex justify-between">
+<header class="min-w-full bg-slate-700 text-slate-50">
+  <nav
+    class="w-[min(90%,_1024px)] h-[5rem] mx-auto items-center flex justify-between"
+  >
     <div>
-      <h1 class="font-bold text-lg lg:text-xl">PaClimb - Change Logs</h1>
+      <a href={'/' + lang} class="flex gap-2">
+        <img src="/favicon.svg" alt="paclimb logo" height={42} width={42} />
+        <h2 class="m-0">PaClimb</h2>
+      </a>
+      <p class="opacity-50">Change Logs</p>
     </div>
     <ul id="select-language" class="flex gap-2">
-      <li
-        title="italiano"
-        class="hover:opacity-100 transition:opacity duration-300"
-        class:list={[
-          { 'opacity-100': isItalianActive, 'opacity-40': !isItalianActive },
-        ]}
-      >
-        <a href="/it/beta">IT</a>
-      </li>
-      <li
-        title="english"
-        class="hover:opacity-100 transition:opacity duration-300"
-        class:list={[
-          { 'opacity-100': isEnglishActive, 'opacity-40': !isEnglishActive },
-        ]}
-      >
-        <a href="/en/beta">EN</a>
-      </li>
+      <a href="/it/beta">
+        <li
+          title="italiano"
+          class="hover:opacity-100 transition:opacity duration-300"
+          class:list={[
+            { 'opacity-100': isItalianActive, 'opacity-50': !isItalianActive },
+          ]}
+        >
+          IT
+        </li>
+      </a>
+      <span class="h-6 w-[1px] bg-slate-50/50"></span>
+      <a href="/en/beta">
+        <li
+          title="english"
+          class="hover:opacity-100 transition:opacity duration-300"
+          class:list={[
+            { 'opacity-100': isEnglishActive, 'opacity-50': !isEnglishActive },
+          ]}
+        >
+          EN
+        </li>
+      </a>
     </ul>
   </nav>
 </header>

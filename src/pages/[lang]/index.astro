@@ -28,9 +28,15 @@ const betaLink = lang === 'it' ? '/it/beta' : '/en/beta';
 const latestDateStaging = new Date(Date.parse('2023-05-09'));
 const latestUpdateStaging =
   translations.home.latestUpdate + latestDateStaging.toLocaleDateString(lang);
+
+// Set cache headers
+Astro.response.headers.set(
+  'cache-control',
+  'max-age=0, s-max-age=604800, must-revalidate'
+);
 ---
 
-<NavbarLayout title={translations.home.title} lang={lang}>
+<NavbarLayout title="Home" lang={lang}>
   <Container>
     <HistoryBar current="Home" paths={[]} />
     <Grid>

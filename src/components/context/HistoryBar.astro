@@ -10,16 +10,13 @@ const { paths, current } = Astro.props;
 <ul class="max-w-full flex gap-2 text-xs font-light overflow-y-auto">
   {
     paths.map((path) => (
-      <li>
-        <a
-          href={path.link}
-          class="opacity-40 hover:opacity-100 transition-opacity duration-300"
-        >
+      <a href={path.link} class="flex gap-1">
+        <li class="opacity-40 hover:opacity-100 transition-opacity duration-300">
           {path.name}
-        </a>
+        </li>
         <span class="opacity-40">&rarr;</span>
-      </li>
+      </a>
     ))
   }
-  <li class="opacity-40 font-semibold">{current}</li>
+  <li class="opacity-100 font-semibold text-blue-400">{current}</li>
 </ul>

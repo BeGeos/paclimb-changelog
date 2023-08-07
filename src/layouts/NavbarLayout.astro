@@ -10,7 +10,7 @@ import Navbar from '@components/context/Navbar.astro';
 const { lang, title } = Astro.props;
 ---
 
-<Layout title={title} lang={lang}>
+<Layout title={title + ' - PaClimb Change Logs'} lang={lang}>
   <Navbar />
   <slot />
 </Layout>
