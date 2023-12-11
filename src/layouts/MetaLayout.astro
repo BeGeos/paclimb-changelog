@@ -1,0 +1,15 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { description, title } = Astro.props;
+---
+
+<Layout title={title}>
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+</Layout>

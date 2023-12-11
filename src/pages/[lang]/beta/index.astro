@@ -92,7 +92,7 @@ const sortedGroups = groupLogsByMonth(logs, translations.time.months);
 // Set cache-control headers
 Astro.response.headers.set(
   'cache-control',
-  'max-age, s-max-age=604800, must-revalidate'
+  'max-age=0, s-max-age=604800, must-revalidate'
 );
 ---
 

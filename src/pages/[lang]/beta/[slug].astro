@@ -37,7 +37,7 @@ const date = getDate(_slug, lang);
 
 Astro.response.headers.set(
   'cache-control',
-  'max-age, s-max-age=604800, must-revalidate'
+  'max-age=0, s-max-age=604800, must-revalidate'
 );
 ---
 
