@@ -25,7 +25,7 @@ const translations = await getLocaleTranslations(lang);
 
 const productionLink = lang === 'it' ? '/it' : '/en';
 const betaLink = lang === 'it' ? '/it/beta' : '/en/beta';
-const latestDateStaging = new Date(Date.parse('2024-01-04'));
+const latestDateStaging = new Date(Date.parse('2024-03-10'));
 const latestUpdateStaging =
   translations.home.latestUpdate + latestDateStaging.toLocaleDateString(lang);
 
